@@ -3,19 +3,19 @@ package beans
 
 class Event(name: String, notes: ArrayList<Note>) {
 
-    private var name: String? = name
+    private var name: String = name
 
-    private var notes = notes
+    private var notes = arrayListOf<Note>()
 
     fun getName(): String {
-        return name!!
+        return name
     }
 
     fun setName(name: String) {
         this.name = name
     }
 
-    fun getNotes(): ArrayList<Note>? {
+    fun getNotes(): ArrayList<Note> {
         return notes
     }
 
