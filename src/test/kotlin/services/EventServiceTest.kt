@@ -1,10 +1,7 @@
 package services
 
-import beans.Event
-import beans.Note
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.not
 
@@ -24,12 +21,12 @@ class EventServiceTest {
 		val joinedEvent = eventService.resolveEvents(remoteEvent, localEvent)
 
 		// then
-		assertThat(joinedEvent.getName(), equalTo("Name 1"))
-		assertThat(joinedEvent.getNotes()!!.get(0).getId(), equalTo(1))
-		assertThat(joinedEvent.getNotes()!!.get(0).getText(), equalTo("A"))
-		assertThat(joinedEvent.getNotes()!!.get(1).getId(), equalTo(2))
-		assertThat(joinedEvent.getNotes()!!.get(1).getText(), equalTo("B"))
-		assertThat(joinedEvent.getNotes()!!.size, equalTo(2))
+		assertThat(joinedEvent.name, equalTo("Name 1"))
+		assertThat(joinedEvent.notes[0].id, equalTo(1))
+		assertThat(joinedEvent.notes[0].text, equalTo("A"))
+		assertThat(joinedEvent.notes[1].id, equalTo(2))
+		assertThat(joinedEvent.notes[1].text, equalTo("B"))
+		assertThat(joinedEvent.notes.size, equalTo(2))
 	}
 
 	@Test // To test the id sort
@@ -45,12 +42,12 @@ class EventServiceTest {
 		val joinedEvent = eventService.resolveEvents(remoteEvent, localEvent)
 
 		// then
-		assertThat(joinedEvent.getName(), equalTo("Name 1"))
-		assertThat(joinedEvent.getNotes()!!.get(0).getId(), equalTo(1))
-		assertThat(joinedEvent.getNotes()!!.get(0).getText(), equalTo("A"))
-		assertThat(joinedEvent.getNotes()!!.get(1).getId(), equalTo(2))
-		assertThat(joinedEvent.getNotes()!!.get(1).getText(), equalTo("B"))
-		assertThat(joinedEvent.getNotes()!!.size, equalTo(2))
+		assertThat(joinedEvent.name, equalTo("Name 1"))
+		assertThat(joinedEvent.notes[0].id, equalTo(1))
+		assertThat(joinedEvent.notes[0].text, equalTo("A"))
+		assertThat(joinedEvent.notes[1].id, equalTo(2))
+		assertThat(joinedEvent.notes[1].text, equalTo("B"))
+		assertThat(joinedEvent.notes.size, equalTo(2))
 	}
 
 	@Test
@@ -66,10 +63,10 @@ class EventServiceTest {
 		val joinedEvent = eventService.resolveEvents(remoteEvent, localEvent)
 
 		// then
-		assertThat(joinedEvent.getName(), equalTo("Name 1 / Name 2"))
-		assertThat(joinedEvent.getNotes()!!.get(0).getId(), equalTo(1))
-		assertThat(joinedEvent.getNotes()!!.get(0).getText(), equalTo("A / B"))
-		assertThat(joinedEvent.getNotes()!!.size, equalTo(1))
+		assertThat(joinedEvent.name, equalTo("Name 1 / Name 2"))
+		assertThat(joinedEvent.notes[0].id, equalTo(1))
+		assertThat(joinedEvent.notes[0].text, equalTo("A / B"))
+		assertThat(joinedEvent.notes.size, equalTo(1))
 	}
 
 	@Test
@@ -85,10 +82,10 @@ class EventServiceTest {
 		val joinedEvent = eventService.resolveEvents(remoteEvent, localEvent)
 
 		// then
-		assertThat(joinedEvent.getName(), equalTo("Name 1"))
-		assertThat(joinedEvent.getNotes()!!.get(0).getId(), equalTo(1))
-		assertThat(joinedEvent.getNotes()!!.get(0).getText(), equalTo("A"))
-		assertThat(joinedEvent.getNotes()!!.size, equalTo(1))
+		assertThat(joinedEvent.name, equalTo("Name 1"))
+		assertThat(joinedEvent.notes[0].id, equalTo(1))
+		assertThat(joinedEvent.notes[0].text, equalTo("A"))
+		assertThat(joinedEvent.notes.size, equalTo(1))
 	}
 
 	@Test
@@ -104,11 +101,11 @@ class EventServiceTest {
 		val joinedEvent = eventService.resolveEvents(remoteEvent, localEvent)
 
 		// then
-		assertThat(joinedEvent.getName(), not(equalTo("Name 2 / Name 1")))
-		assertThat(joinedEvent.getNotes()!!.get(0).getId(), not(equalTo(2)))
-		assertThat(joinedEvent.getNotes()!!.get(0).getText(), not(equalTo("B")))
-		assertThat(joinedEvent.getNotes()!!.get(1).getId(), not(equalTo(1)))
-		assertThat(joinedEvent.getNotes()!!.get(1).getText(), not(equalTo("A")))
-		assertThat(joinedEvent.getNotes()!!.size, not(equalTo(1)))
+		assertThat(joinedEvent.name, not(equalTo("Name 2 / Name 1")))
+		assertThat(joinedEvent.notes[0].id, not(equalTo(2)))
+		assertThat(joinedEvent.notes[0].text, not(equalTo("B")))
+		assertThat(joinedEvent.notes[1].id, not(equalTo(1)))
+		assertThat(joinedEvent.notes[1].text, not(equalTo("A")))
+		assertThat(joinedEvent.notes.size, not(equalTo(1)))
 	}
 }

@@ -1,52 +1,47 @@
 package services
 
-import beans.Event
-import beans.Note
 import java.util.*
-import java.util.stream.Collectors
 
+data class Event(val name: String, val notes: ArrayList<Note>)
 
+data class Note(val id: Long, val text: String)
 class EventService() {
 
     fun resolveEvents(remote: Event, local: Event): Event {
 
-        val remoteNotes = remote.getNotes()
-        val localNotes = local.getNotes()
-        val joinedEvent = Event("", arrayListOf())
+        val remoteNotes = remote.notes
+        val localNotes = local.notes
+        var joinedName = local.name
 
         // join event names if they are different
-        if(local.getName() != remote.getName()){
-            joinedEvent.setName(local.getName().plus(" / ").plus(remote.getName()))
-        }else{
-            joinedEvent.setName(local.getName())
+        if(local.name != remote.name){
+            joinedName = local.name.plus(" / ").plus(remote.name)
         }
+
+        val joinedNotes = ArrayList<Note>()
         // loop through both sets of notes
         for (localNote in localNotes) {
             for (remoteNote in remoteNotes) {
-                if (localNote.getId() == remoteNote.getId()) {
+                if (localNote.id == remoteNote.id) {
                     // if they share the same id and same text add the local note
-                    if (localNote.getText() == remoteNote.getText()) {
-                        joinedEvent.getNotes().add(localNote)
-                    } else  // if they just share the same id merge text with a slash
-                    {
+                    if (localNote.text == remoteNote.text) {
+                        joinedNotes.add(localNote)
+                    } else { // if they just share the same id merge text with a slash
                         val joinedNote =
-                            Note(localNote.getId(), localNote.getText().plus(" / ").plus(remoteNote.getText()))
-                        joinedEvent.getNotes().add(joinedNote)
+                            Note(localNote.id, localNote.text.plus(" / ").plus(remoteNote.text))
+                        joinedNotes.add(joinedNote)
                     }
                 }else{
                     // add remaining notes to the joined event
-                    joinedEvent.getNotes().add(remoteNote)
-                    joinedEvent.getNotes().add(localNote)
+                    joinedNotes.add(remoteNote)
+                    joinedNotes.add(localNote)
                 }
             }
         }
 
         // sort notes by id
-        val sortedNotes: List<Note> = joinedEvent.getNotes().stream()
-           .sorted(Comparator.comparingLong(Note::getId)).collect(Collectors.toList())
+        var sortedNotes = joinedNotes.sortedWith(compareBy(Note::id))
 
-        joinedEvent.setNotes(ArrayList(sortedNotes))
-
-        return joinedEvent;
+        return Event(joinedName, ArrayList(sortedNotes))
     }
 }
